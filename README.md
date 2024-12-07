@@ -64,30 +64,36 @@ To set up this project locally and run the dashboard:
 Clone this repository to your local machine:
 ```bash
 git clone https://github.com/<your-github-username>/10-Academy.git
+```
 
 ### **2. Navigate into the project directory**
 ```bash
 cd 10-Academy
+```
 ### **3. Set up a virtual environment**
 Create a virtual environment using the following command:
 ```bash
 python -m venv venv
-
+```
 ### **4. Activate the virtual environment**
 For Windows:
 ```bash
 .\venv\Scripts\Activate
+```
 For macOS/Linux:
 ```bash
 source venv/bin/activate
+```
 ### **5. Install the required dependencies**
 Run this command to install the required dependencies:
 ```bash
 pip install -r requirements.txt
+```
 ### **6. Run the Streamlit App**
 Start the dashboard by running:
 ```bash
 streamlit run src/app/main.py
+```
 Your default browser will open at: http://localhost:8501.
 
 #✨ How to Use the Dashboard
