@@ -96,7 +96,7 @@ streamlit run src/app/main.py
 ```
 Your default browser will open at: http://localhost:8501.
 
-#✨ How to Use the Dashboard
+# ✨ How to Use the Dashboard
 
 After running streamlit run, visit http://localhost:8501 in your browser.
 Use the sidebar menu to select from:
@@ -105,13 +105,13 @@ Use the sidebar menu to select from:
 -Wind-Solar Analysis: Explore how wind speed interacts with GHI data.
 -Outliers Detection: Visualize anomalies in the GHI data.
 
-#💼 Acknowledgments
+# 💼 Acknowledgments
 Special thanks to MoonLight Energy Solutions for the opportunity to demonstrate these insights and build this visualization pipeline.
 
-#📜 Contributing
+# 📜 Contributing
 If you want to contribute to this project, feel free to fork the repository, create a branch, and make a pull request with improvements!
 
-#🛠️ Contact
+# 🛠️ Contact
 If you face any issues, feel free to contact:
 
 Surafel Takele: surafeltakele09@gmail.com
