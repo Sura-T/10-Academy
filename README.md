@@ -100,10 +100,17 @@ Your default browser will open at: http://localhost:8501.
 
 After running streamlit run, visit http://localhost:8501 in your browser.
 Use the sidebar menu to select from:
--Time-Series Analysis: Visualize trends over time for GHI, DNI, DHI, and temperature.
--Correlation Heatmap Analysis: Visualize statistical relationships.
--Wind-Solar Analysis: Explore how wind speed interacts with GHI data.
--Outliers Detection: Visualize anomalies in the GHI data.
+- **Time-Series Analysis:** Visualize trends over time for GHI, DNI, DHI, and temperature.
+- **Correlation Heatmap Analysis:** Visualize statistical relationships.
+- **Wind-Solar Analysis:** Explore how wind speed interacts with GHI data.
+- **Outliers Detection:** Visualize anomalies in the GHI data.
+
+## ✨ Technologies Used
+- **Python:** Programming language for analysis and visualization.
+- **Pandas:** Data analysis.
+- **Seaborn/Matplotlib:** Visualization libraries.
+- **Streamlit:** Interactive dashboard.
+- **Git/GitHub:** Version control system and collaboration platform.
 
 ## 💼 Acknowledgments
 Special thanks to MoonLight Energy Solutions for the opportunity to demonstrate these insights and build this visualization pipeline.
