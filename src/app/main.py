@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # Use non-GUI backend for compatibility
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
@@ -8,11 +10,10 @@ import os
 # Helper function to load the datasets using absolute paths
 def load_data():
     try:
-        # Dynamically resolve paths using absolute paths
-        base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the script
-        data_benin = pd.read_csv(os.path.join(base_dir, "../../benin-malanville.csv"))
-        data_sierra_leone = pd.read_csv(os.path.join(base_dir, "../../sierraleone-bumbuna.csv"))
-        data_togo = pd.read_csv(os.path.join(base_dir, "../../togo-dapaong_qc.csv"))
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # Dynamically resolve path
+        data_benin = pd.read_csv(os.path.join(base_dir, "../../assets/data/benin-malanville.csv"))
+        data_sierra_leone = pd.read_csv(os.path.join(base_dir, "../../assets/data/sierraleone-bumbuna.csv"))
+        data_togo = pd.read_csv(os.path.join(base_dir, "../../assets/data/togo-dapaong_qc.csv"))
 
         st.success("Data loaded successfully")
         return data_benin, data_sierra_leone, data_togo
@@ -42,10 +43,36 @@ def main():
     selected_option = st.sidebar.selectbox("Choose Analysis", options)
 
     # Handle navigation logic
-    if selected_option == "Time-Series Analysis":
+    if selected_option == "Wind-Solar Analysis":
+        st.subheader("Wind-Solar Analysis: Wind Speed vs. GHI")
+        
+        # Check if required columns exist before attempting visualization
+        if all(col in data_benin.columns for col in ["WS", "GHI"]):
+            fig, ax = plt.subplots(figsize=(8, 6))
+            ax.scatter(data_benin['WS'], data_benin['GHI'], alpha=0.5, label="Benin")
+            ax.scatter(data_sierra_leone['WS'], data_sierra_leone['GHI'], alpha=0.5, label="Sierra Leone")
+            ax.scatter(data_togo['WS'], data_togo['GHI'], alpha=0.5, label="Togo")
+            ax.set_xlabel("Wind Speed (m/s)")
+            ax.set_ylabel("Global Horizontal Irradiance (W/m²)")
+            ax.legend()
+            st.pyplot(fig)
+        else:
+            st.error("Required columns ('WS', 'GHI') are missing in the data.")
+
+    elif selected_option == "Outliers Detection":
+        st.subheader("Outliers in GHI")
+        
+        # Check if the data is available before plotting
+        if "GHI" in data_benin.columns and not data_benin['GHI'].isna().all():
+            fig, ax = plt.subplots(figsize=(8, 6))
+            sns.boxplot(data=data_benin, x='GHI', ax=ax)
+            st.pyplot(fig)
+        else:
+            st.error("No valid GHI data found to analyze for outliers.")
+
+    elif selected_option == "Time-Series Analysis":
         st.subheader("GHI, DNI, DHI, and Tamb over Time")
         
-        # Plotting time-series data
         fig, ax = plt.subplots(figsize=(10, 5))
         ax.plot(pd.to_datetime(data_benin['Timestamp']), data_benin['GHI'], label="Benin GHI")
         ax.plot(pd.to_datetime(data_sierra_leone['Timestamp']), data_sierra_leone['GHI'], label="Sierra Leone GHI")
@@ -59,40 +86,17 @@ def main():
 
     elif selected_option == "Correlation Analysis":
         st.subheader("Correlation Heatmap Analysis")
-    
-        # Filter only numeric columns to compute correlations
+        
+        # Ensure numeric columns are present for heatmap
         numeric_data = data_benin.select_dtypes(include=["float64", "int64"])
-    
-        # Create a correlation heatmap with only numeric columns
-        fig, ax = plt.subplots(figsize=(10, 8))
-        sns.heatmap(numeric_data.corr(), annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
-        st.pyplot(fig)
+        if not numeric_data.empty:
+            fig, ax = plt.subplots(figsize=(10, 8))
+            sns.heatmap(numeric_data.corr(), annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
+            st.pyplot(fig)
+        else:
+            st.error("No numeric data available for correlation analysis.")
 
 
-    elif selected_option == "Wind-Solar Analysis":
-        st.subheader("Scatter Analysis: Wind Speed vs. GHI")
-        
-        # Create scatter plots showing relationships
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.scatter(data_benin['WS'], data_benin['GHI'], alpha=0.5, label="Benin")
-        ax.scatter(data_sierra_leone['WS'], data_sierra_leone['GHI'], alpha=0.5, label="Sierra Leone")
-        ax.scatter(data_togo['WS'], data_togo['GHI'], alpha=0.5, label="Togo")
-        
-        ax.set_xlabel("Wind Speed (m/s)")
-        ax.set_ylabel("Global Horizontal Irradiance (W/m²)")
-        ax.legend()
-        
-        st.pyplot(fig)
-
-    elif selected_option == "Outliers Detection":
-        st.subheader("Outliers in GHI")
-        
-        # Plot outliers using a boxplot
-        fig, ax = plt.subplots(figsize=(8, 6))
-        sns.boxplot(data=data_benin, x='GHI', ax=ax)
-        st.pyplot(fig)
-
-
-# Call the main function to execute the dashboard
+# Run the dashboard
 if __name__ == "__main__":
     main()
