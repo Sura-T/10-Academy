@@ -5,9 +5,9 @@ import pandas as pd
 def load_data():
     try:
         # Read the solar data from CSVs
-        data_benin = pd.read_csv('../benin-malanville.csv')
-        data_sierra_leone = pd.read_csv('../sierraleone-bumbuna.csv')
-        data_togo = pd.read_csv('../togo-dapaong_qc.csv')
+        data_benin = pd.read_csv('../../../assets/data/benin-malanville.csv')
+        data_sierra_leone = pd.read_csv('../../../assets/data/sierraleone-bumbuna.csv')
+        data_togo = pd.read_csv('../../../assets/data/togo-dapaong_qc.csv')
 
         # Preprocessing: Drop rows with invalid GHI values (negative GHI values make no sense)
         data_benin = data_benin[data_benin['GHI'] >= 0]
