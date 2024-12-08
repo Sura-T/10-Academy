@@ -86,9 +86,17 @@ def main():
 
     elif selected_option == "Correlation Analysis":
         st.subheader("Correlation Heatmap Analysis")
-        fig, ax = plt.subplots(figsize=(10, 8))
-        sns.heatmap(data_benin.select_dtypes(include="number").corr(), annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
-        st.pyplot(fig)
+        
+        # Ensure numeric columns are present for heatmap
+        numeric_data = data_benin.select_dtypes(include=["float64", "int64"])
+        if not numeric_data.empty:
+            fig, ax = plt.subplots(figsize=(10, 8))
+            sns.heatmap(numeric_data.corr(), annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
+            st.pyplot(fig)
+        else:
+            st.error("No numeric data available for correlation analysis.")
 
 
-main()
+# Run the dashboard
+if __name__ == "__main__":
+    main()
